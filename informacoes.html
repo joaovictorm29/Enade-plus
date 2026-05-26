@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Informações da Conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="perfil.html" class="topbar-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+      </a>
+      <a href="dashboard.html" class="topbar-brand">
+        <div class="topbar-logo-icon">e</div>
+        <span class="topbar-brand-name">ENADE+</span>
+      </a>
+    </div>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <!-- ── SIDEBAR ESQUERDA ── -->
+    <aside class="profile-sidebar">
+      <div class="profile-avatar">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="profile-name">Nome do Usuário</div>
+      <div class="profile-handle">@usuario</div>
+      <div class="profile-info-item" style="margin-top:8px;">Curso</div>
+      <div class="profile-info-item">Universidade</div>
+    </aside>
+
+    <!-- ── PAINEL DIREITO ── -->
+    <main style="display:flex;align-items:flex-start;padding:40px;">
+      <div class="profile-panel" style="padding:0;">
+
+        <h1 class="profile-panel-title">Informações da Conta</h1>
+
+        <!-- Campo: Telefone -->
+        <div class="profile-field">
+          <label for="telefone">Telefone :</label>
+          <div class="input-wrapper">
+            <input
+              type="tel"
+              id="telefone"
+              name="telefone"
+              placeholder="(99) 99999-9999"
+              class="has-icon"
+            />
+            <span class="edit-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo: E-mail (pré-preenchido, mas editável) -->
+        <div class="profile-field">
+          <label for="email-info">E-mail :</label>
+          <div class="input-wrapper">
+            <input
+              type="email"
+              id="email-info"
+              name="email"
+              placeholder="meuemail@gmail.com"
+              class="has-icon"
+            />
+            <span class="edit-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!--
+          Botão "Alterar a Senha": navega para a tela de alteração.
+          Usamos <a> envolvendo o <button> para navegação simples.
+          Em React/frameworks, você usaria navigate() ou <Link>.
+        -->
+        <a href="alterar-senha.html" style="text-decoration:none;">
+          <button type="button" class="btn-secondary">Alterar a Senha</button>
+        </a>
+
+        <!--
+          Botão "Deletar a Conta": NÃO navega.
+          Abre um modal de confirmação.
+          O id="btn-deletar" permite que o JS encontre esse botão.
+        -->
+        <button
+          type="button"
+          class="btn-danger"
+          id="btn-deletar"
+          style="margin-top: 8px;"
+        >
+          Deletar a Conta
+        </button>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       MODAL DE CONFIRMAÇÃO DE EXCLUSÃO
+
+       Fica escondido por padrão (sem .is-open).
+       O JS abaixo adiciona/remove .is-open ao clicar nos botões.
+
+       ESTRUTURA DO MODAL:
+       .modal-overlay  → fundo escuro semitransparente (cobre tudo)
+         └─ .modal-box → caixa branca centralizada com o conteúdo
+  ════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal-deletar">
+    <div class="modal-box">
+
+      <!-- Ícone de alerta -->
+      <div class="modal-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+          <path d="M10 11v6"/>
+          <path d="M14 11v6"/>
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+        </svg>
+      </div>
+
+      <h2 class="modal-title">Excluir conta?</h2>
+      <p class="modal-desc">
+        Esta ação é <strong>permanente e irreversível</strong>. Todo o seu progresso, simulados e dados serão apagados definitivamente.
+      </p>
+
+      <div class="modal-actions">
+        <!-- Cancelar: fecha o modal sem fazer nada -->
+        <button class="btn-cancel" id="btn-cancelar-modal">Cancelar</button>
+        <!-- Confirmar: em produção chamaria a API; aqui volta ao login -->
+        <button class="btn-confirm-delete" id="btn-confirmar-delete">Sim, excluir</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    /*
+      Lógica do modal — específica desta página.
+      
+      CONCEITO: querySelector retorna o PRIMEIRO elemento que
+      corresponde ao seletor CSS passado. É como document.getElementById
+      mas aceita qualquer seletor CSS.
+
+      classList.add / classList.remove manipulam as classes
+      de um elemento sem sobrescrever as outras classes que ele tem.
+      É a forma correta de "ligar/desligar" estados visuais.
+    */
+
+    var modal     = document.getElementById('modal-deletar');
+    var btnAbrir  = document.getElementById('btn-deletar');
+    var btnFechar = document.getElementById('btn-cancelar-modal');
+    var btnConfirm= document.getElementById('btn-confirmar-delete');
+
+    // Abre o modal
+    btnAbrir.addEventListener('click', function() {
+      modal.classList.add('is-open');
+    });
+
+    // Fecha o modal ao cancelar
+    btnFechar.addEventListener('click', function() {
+      modal.classList.remove('is-open');
+    });
+
+    // Fecha ao clicar fora da caixa (no overlay escuro)
+    // Verificamos se o clique foi direto no overlay, não em um filho
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('is-open');
+      }
+    });
+
+    // Confirmar exclusão (protótipo: volta ao login)
+    btnConfirm.addEventListener('click', function() {
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

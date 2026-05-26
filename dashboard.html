@@ -8,344 +8,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-
-  <style>
-    /*
-      ESTILOS ESPECÍFICOS DO DASHBOARD
-      Tudo que só existe nesta tela fica aqui.
-      O que é global (cores, fontes, botões) já está no style.css.
-    */
-
-   
-    body {
-      background: #F1F5F9;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      height: 64px;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 1px 8px rgba(0,0,0,0.05);
-    }
-
-    .topbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .topbar-logo-icon {
-      width: 38px;
-      height: 38px;
-      background: var(--primary);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 700;
-      color: white;
-      position: relative;
-      flex-shrink: 0;
-    }
-
-    .topbar-logo-icon::after {
-      content: '+';
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      width: 16px;
-      height: 16px;
-      background: #60A5FA;
-      border-radius: 50%;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1.5px solid white;
-      line-height: 1;
-    }
-
-    .topbar-brand-name {
-      font-family: var(--font-display);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-dark);
-      letter-spacing: 1px;
-    }
-
-    .topbar-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #EEF2FF;
-      border: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-      cursor: pointer;
-      transition: border-color var(--transition);
-    }
-
-    .topbar-avatar:hover {
-      border-color: var(--primary);
-    }
-
-  
-    .dashboard-layout {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      min-height: calc(100vh - 64px); /* desconta a topbar     */
-    }
-
-    .sidebar {
-      background: var(--white);
-      border-right: 1px solid var(--border);
-      padding: 28px 0;
-    }
-
-    .sidebar-nav {
-      list-style: none; 
-    }
-
-    .sidebar-nav li a {
-      display: block;
-      padding: 11px 24px;
-      font-size: 15px;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color var(--transition), background var(--transition);
-      border-left: 3px solid transparent;
-    }
-
-    .sidebar-nav li a:hover {
-      color: var(--primary);
-      background: #F0F4FF;
-    }
-
-    .sidebar-nav li a.active {
-      color: var(--primary);
-      font-weight: 600;
-      border-left-color: var(--primary);
-      background: #EEF2FF;
-    }
-
-    .main-content {
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-
-  
-    .cards-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .cards-row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .cards-row-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 24px;
-      transition: box-shadow var(--transition), transform var(--transition);
-    }
-
-    .card:hover {
-      box-shadow: var(--shadow);
-      transform: translateY(-2px);
-    }
-
-    .stat-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: #F8FAFC;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary);
-    }
-
-    .stat-value {
-      font-family: var(--font-display);
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--text-dark);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .simulado-card .stat-icon {
-      width: 44px;
-      height: 44px;
-    }
-
-    .simulado-card .stat-value {
-      font-size: 26px;
-      letter-spacing: 1px;
-    }
-
-    .simulado-badge {
-      font-size: 12px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 20px;
-      margin-top: 6px;
-      display: inline-block;
-    }
-
-    .badge-best  { background: #DCFCE7; color: #166534; }
-    .badge-worst { background: #FEE2E2; color: #991B1B; }
-
-    .difficulty-list {
-      list-style: none;
-      margin-top: 12px;
-    }
-
-    .difficulty-list li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      font-size: 15px;
-      color: var(--text-dark);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .difficulty-list li:last-child {
-      border-bottom: none;
-    }
-
-    /* Número da posição */
-    .diff-rank {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--primary);
-      width: 20px;
-      flex-shrink: 0;
-    }
-
-    /* ── CARD DE CALENDÁRIO (heatmap de atividade) ────────────
-       Inspirado no GitHub contributions graph.
-       Cada célula é um quadrado colorido que indica
-       se o usuário estudou naquele dia (e quanto).            */
-    .calendar-card .card-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    
-    .cal-header {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-      margin-bottom: 6px;
-    }
-
-    .cal-day-name {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    
-    .cal-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .cal-week {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-
-    .cal-cell {
-      aspect-ratio: 1;            
-      border-radius: 4px;
-      transition: transform 0.1s;
-    }
-
-    .cal-cell:hover {
-      transform: scale(1.2);
-      cursor: default;
-    }
-
-
-    .cal-cell.level-1 { background: #BBF7D0; } 
-    .cal-cell.level-2 { background: #4ADE80; } 
-    .cal-cell.level-3 { background: #16A34A; } 
-  </style>
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
 
-
   <header class="topbar">
-    <div class="topbar-brand">
+    <a href="index.html" class="topbar-brand">
       <div class="topbar-logo-icon">e</div>
       <span class="topbar-brand-name">ENADE+</span>
-    </div>
-    <div class="topbar-avatar" title="Perfil do usuário">
+    </a>
+    <a href="perfil.html" class="topbar-avatar" title="Perfil do usuário">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
       </svg>
-    </div>
+    </a>
   </header>
 
   <div class="dashboard-layout">
-
     <aside class="sidebar">
       <ul class="sidebar-nav">
         <li><a href="dashboard.html" class="active">Resultados</a></li>
@@ -357,7 +37,6 @@
     <main class="main-content">
 
       <div class="cards-row">
-
         <div class="card stat-card">
           <div class="stat-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -387,43 +66,35 @@
             <div class="stat-label">Horas usadas hoje</div>
           </div>
         </div>
-
       </div>
 
       <div class="cards-row-2">
-
         <div class="card simulado-card">
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <div class="stat-icon" style="width: 64px; height: 64px; font-size: 28px; font-weight: 700; color: #16A34A;">
-              39
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
             <div>
-              <div class="stat-value" style="font-size: 24px; margin-bottom: 4px;">ENADE 2024</div>
-              <div style="font-size: 14px; color: var(--text-muted);">39 de 40 acertos</div>
-              <span class="simulado-badge badge-best" style="margin-top: 8px;">Melhor simulado</span>
-              <div style="font-size: 14px; color: #16A34A; font-weight: 600; margin-top: 6px;">97.5% de aproveitamento</div>
+              <div class="stat-value">ENADE 2024</div>
+              <span class="simulado-badge badge-best">Melhor simulado</span>
             </div>
           </div>
         </div>
 
         <div class="card simulado-card">
-          <div style="display: flex; align-items: center; gap: 16px;">
-            <div class="stat-icon" style="width: 64px; height: 64px; font-size: 28px; font-weight: 700; color: #F59E0B;">
-              28
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
             <div>
-              <div class="stat-value" style="font-size: 24px; margin-bottom: 4px;">ENADE 2023</div>
-              <div style="font-size: 14px; color: var(--text-muted);">28 de 40 acertos</div>
-              <span class="simulado-badge badge-worst" style="margin-top: 8px;">Pior simulado</span>
-              <div style="font-size: 14px; color: #F59E0B; font-weight: 600; margin-top: 6px;">70% de aproveitamento</div>
+              <div class="stat-value">ENADE 2023</div>
+              <span class="simulado-badge badge-worst">Pior simulado</span>
             </div>
           </div>
         </div>
-
       </div>
 
       <div class="cards-row-3">
-
         <div class="card">
           <div class="section-title" style="font-size:15px; margin-bottom:0;">Áreas de Maior Dificuldade</div>
           <ul class="difficulty-list">
@@ -434,8 +105,7 @@
         </div>
 
         <div class="card">
-          <div class="card-label">Atividade de estudos</div>
-
+          <div class="card-label" style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Atividade de estudos</div>
           <div class="cal-header">
             <span class="cal-day-name">Dom</span>
             <span class="cal-day-name">Seg</span>
@@ -445,55 +115,35 @@
             <span class="cal-day-name">Sex</span>
             <span class="cal-day-name">Sáb</span>
           </div>
-
-          <!--
-            Grade de células: cada .cal-week é uma linha (semana).
-            As classes level-1, level-2, level-3 controlam a cor.
-            Sem classe = cinza (sem estudo naquele dia).
-            Isso é um dado estático por enquanto — futuramente
-            virá do backend com base no histórico real do usuário.
-          -->
           <div class="cal-grid">
             <div class="cal-week">
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell level-1"></div>
-              <div class="cal-cell level-2"></div>
-              <div class="cal-cell level-3"></div>
-              <div class="cal-cell level-1"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
+              <div class="cal-cell level-1"></div><div class="cal-cell level-2"></div>
+              <div class="cal-cell level-3"></div><div class="cal-cell level-1"></div>
               <div class="cal-cell"></div>
             </div>
             <div class="cal-week">
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
               <div class="cal-cell"></div>
             </div>
             <div class="cal-week">
-              <div class="cal-cell"></div>
-              <div class="cal-cell level-3"></div>
-              <div class="cal-cell level-2"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell level-3"></div>
+              <div class="cal-cell level-2"></div><div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
               <div class="cal-cell"></div>
             </div>
             <div class="cal-week">
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
-              <div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
+              <div class="cal-cell"></div><div class="cal-cell"></div>
               <div class="cal-cell"></div>
             </div>
           </div>
         </div>
-
       </div>
+
     </main>
   </div>
 

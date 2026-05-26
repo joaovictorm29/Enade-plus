@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <!-- TOPBAR com botão de voltar -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="dashboard.html" class="topbar-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+      </a>
+      <a href="dashboard.html" class="topbar-brand">
+        <div class="topbar-logo-icon">e</div>
+        <span class="topbar-brand-name">ENADE+</span>
+      </a>
+    </div>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <!-- ── SIDEBAR ESQUERDA: foto + dados do usuário ── -->
+    <aside class="profile-sidebar">
+      <div class="profile-avatar">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="profile-name">Nome do Usuário</div>
+      <div class="profile-handle">@usuario</div>
+      <div class="profile-info-item" style="margin-top:8px;">Curso</div>
+      <div class="profile-info-item">Universidade</div>
+    </aside>
+
+    <!-- ── PAINEL DIREITO: formulário de perfil ── -->
+    <main style="display:flex;align-items:flex-start;padding:40px;">
+      <div class="profile-panel" style="padding:0;">
+
+        <h1 class="profile-panel-title">Informações da Conta</h1>
+
+        <!-- Campo: Curso (dropdown com todos os cursos brasileiros) -->
+        <div class="profile-field">
+          <label for="curso">Curso :</label>
+          <div class="select-wrapper">
+            <!--
+              <select> é o elemento HTML nativo para listas suspensas.
+              Cada <option> é um item da lista.
+              O atributo value é o que o JS/backend receberá;
+              o texto entre as tags é o que aparece para o usuário.
+
+              Usamos appearance: none no CSS para remover a seta
+              padrão do sistema e colocar uma seta customizada via CSS.
+            -->
+            <select id="curso" name="curso">
+              <option value="" disabled selected>Curso Selecionado</option>
+
+              <!-- Exatas e Tecnologia -->
+              <optgroup label="Exatas e Tecnologia">
+                <option value="cc">Ciência da Computação</option>
+                <option value="si">Sistemas de Informação</option>
+                <option value="eng-software">Engenharia de Software</option>
+                <option value="ads">Análise e Desenvolvimento de Sistemas</option>
+                <option value="redes">Redes de Computadores</option>
+                <option value="eng-comp">Engenharia da Computação</option>
+                <option value="eng-civil">Engenharia Civil</option>
+                <option value="eng-mec">Engenharia Mecânica</option>
+                <option value="eng-ele">Engenharia Elétrica</option>
+                <option value="eng-prod">Engenharia de Produção</option>
+                <option value="eng-quim">Engenharia Química</option>
+                <option value="eng-amb">Engenharia Ambiental</option>
+                <option value="eng-alim">Engenharia de Alimentos</option>
+                <option value="matematica">Matemática</option>
+                <option value="matematica-ap">Matemática Aplicada</option>
+                <option value="fisica">Física</option>
+                <option value="quimica">Química</option>
+                <option value="estatistica">Estatística</option>
+                <option value="geologia">Geologia</option>
+                <option value="geofisica">Geofísica</option>
+              </optgroup>
+
+              <!-- Saúde -->
+              <optgroup label="Saúde">
+                <option value="medicina">Medicina</option>
+                <option value="odonto">Odontologia</option>
+                <option value="farmacia">Farmácia</option>
+                <option value="enfermagem">Enfermagem</option>
+                <option value="fisio">Fisioterapia</option>
+                <option value="nutri">Nutrição</option>
+                <option value="psico">Psicologia</option>
+                <option value="bio-med">Biomedicina</option>
+                <option value="fonoaudio">Fonoaudiologia</option>
+                <option value="to">Terapia Ocupacional</option>
+                <option value="ed-fisica">Educação Física</option>
+                <option value="veterinaria">Medicina Veterinária</option>
+              </optgroup>
+
+              <!-- Humanas e Sociais -->
+              <optgroup label="Humanas e Sociais">
+                <option value="direito">Direito</option>
+                <option value="adm">Administração</option>
+                <option value="contabeis">Ciências Contábeis</option>
+                <option value="economia">Ciências Econômicas</option>
+                <option value="pedagogia">Pedagogia</option>
+                <option value="historia">História</option>
+                <option value="geografia">Geografia</option>
+                <option value="filosofia">Filosofia</option>
+                <option value="sociologia">Ciências Sociais / Sociologia</option>
+                <option value="letras-port">Letras — Português</option>
+                <option value="letras-ing">Letras — Inglês</option>
+                <option value="letras-esp">Letras — Espanhol</option>
+                <option value="jornalismo">Jornalismo</option>
+                <option value="publicidade">Publicidade e Propaganda</option>
+                <option value="relacoes-int">Relações Internacionais</option>
+                <option value="servico-social">Serviço Social</option>
+                <option value="turismo">Turismo</option>
+                <option value="hotelaria">Hotelaria</option>
+              </optgroup>
+
+              <!-- Artes e Design -->
+              <optgroup label="Artes e Design">
+                <option value="artes-visuais">Artes Visuais</option>
+                <option value="design">Design</option>
+                <option value="design-grafico">Design Gráfico</option>
+                <option value="design-moda">Design de Moda</option>
+                <option value="arquitetura">Arquitetura e Urbanismo</option>
+                <option value="cinema">Cinema e Audiovisual</option>
+                <option value="musica">Música</option>
+                <option value="teatro">Teatro / Artes Cênicas</option>
+              </optgroup>
+
+              <!-- Agrárias -->
+              <optgroup label="Agrárias">
+                <option value="agronomia">Agronomia</option>
+                <option value="zootecnia">Zootecnia</option>
+                <option value="florestal">Engenharia Florestal</option>
+                <option value="biologia">Ciências Biológicas</option>
+                <option value="bio-marinha">Biologia Marinha</option>
+              </optgroup>
+
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Campo: Universidade (texto livre) -->
+        <div class="profile-field">
+          <label for="universidade">Universidade :</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="universidade"
+              name="universidade"
+              placeholder="Universidade Selecionada"
+              class="has-icon"
+            />
+            <!-- Ícone de lápis: indica que o campo é editável -->
+            <span class="edit-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Botão: navega para informações.html -->
+        <a href="informacoes.html" style="text-decoration:none;">
+          <button type="button" class="btn-primary" style="margin-top:8px;">
+            Informações da Conta
+          </button>
+        </a>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

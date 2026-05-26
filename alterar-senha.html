@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Alterar Senha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="informacoes.html" class="topbar-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar
+      </a>
+      <a href="dashboard.html" class="topbar-brand">
+        <div class="topbar-logo-icon">e</div>
+        <span class="topbar-brand-name">ENADE+</span>
+      </a>
+    </div>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <!-- ── SIDEBAR ESQUERDA ── -->
+    <aside class="profile-sidebar">
+      <div class="profile-avatar">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div class="profile-name">Nome do Usuário</div>
+      <div class="profile-handle">@usuario</div>
+      <div class="profile-info-item" style="margin-top:8px;">Curso</div>
+      <div class="profile-info-item">Universidade</div>
+    </aside>
+
+    <!-- ── PAINEL DIREITO ── -->
+    <main style="display:flex;align-items:flex-start;padding:40px;">
+      <div class="profile-panel" style="padding:0;">
+
+        <h1 class="profile-panel-title">Alterar Senha</h1>
+
+        <form id="alterar-senha-form" action="#" novalidate>
+
+          <!-- Campo: Senha Atual -->
+          <div class="profile-field">
+            <label for="senha-atual">Senha Atual:</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="senha-atual"
+                name="senha-atual"
+                placeholder="••••••••"
+                class="has-icon"
+                autocomplete="current-password"
+              />
+              <button type="button" class="toggle-password" data-target="senha-atual" aria-label="Mostrar senha">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Campo: Senha Nova -->
+          <div class="profile-field">
+            <label for="senha-nova">Senha Nova:</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="senha-nova"
+                name="senha-nova"
+                placeholder="••••••••"
+                class="has-icon"
+                autocomplete="new-password"
+              />
+              <button type="button" class="toggle-password" data-target="senha-nova" aria-label="Mostrar senha">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <!--
+              Dica de requisitos da senha — exibida abaixo do campo.
+              Em produção, você validaria isso em tempo real com JS,
+              marcando cada requisito como ✓ ou ✗ conforme o usuário digita.
+            -->
+            <div class="password-hint">
+              A senha deve conter:<br>
+              • 8 dígitos<br>
+              • 1 Símbolo<br>
+              • Letras Maiúsculas e Minúsculas<br>
+              • Ao menos 8 caracteres
+            </div>
+          </div>
+
+          <!-- Campo: Confirmar Senha Nova -->
+          <div class="profile-field">
+            <label for="confirmar-senha-nova">Confirmar Senha Nova:</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="confirmar-senha-nova"
+                name="confirmar-senha-nova"
+                placeholder="••••••••"
+                class="has-icon"
+                autocomplete="new-password"
+              />
+              <button type="button" class="toggle-password" data-target="confirmar-senha-nova" aria-label="Mostrar senha">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="margin-top:8px;">
+            Alterar Senha
+          </button>
+
+        </form>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    /*
+      Validação do formulário de alteração de senha.
+      
+      CONCEITO: feedback visual de erro.
+      Em vez de usar alert(), a boa prática é mostrar
+      a mensagem de erro próxima ao campo com problema,
+      deixando a experiência mais fluida.
+
+      Aqui fazemos de forma simples: adicionamos uma borda
+      vermelha no campo e exibimos uma mensagem abaixo.
+    */
+
+    var form = document.getElementById('alterar-senha-form');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var senhaAtual  = document.getElementById('senha-atual');
+      var senhaNova   = document.getElementById('senha-nova');
+      var confirmarSenha = document.getElementById('confirmar-senha-nova');
+
+      // Remove erros anteriores antes de validar de novo
+      [senhaAtual, senhaNova, confirmarSenha].forEach(function(input) {
+        input.style.borderColor = '';
+        var existingError = input.parentElement.nextElementSibling;
+        // Remove mensagem de erro anterior se existir
+        if (existingError && existingError.classList.contains('field-error')) {
+          existingError.remove();
+        }
+      });
+
+      var hasError = false;
+
+      // Verificação: nova senha === confirmação
+      if (senhaNova.value !== confirmarSenha.value) {
+        confirmarSenha.style.borderColor = '#DC2626';
+        var errorMsg = document.createElement('p');
+        errorMsg.className = 'field-error';
+        errorMsg.style.cssText = 'font-size:12px;color:#DC2626;margin-top:4px;';
+        errorMsg.textContent = 'As senhas não coincidem.';
+        // insertAdjacentElement insere um elemento em posição relativa a outro
+        confirmarSenha.parentElement.insertAdjacentElement('afterend', errorMsg);
+        hasError = true;
+      }
+
+      // Verificação: nova senha tem pelo menos 8 caracteres
+      if (senhaNova.value.length < 8) {
+        senhaNova.style.borderColor = '#DC2626';
+        hasError = true;
+      }
+
+      if (!hasError) {
+        // Sucesso: em produção, chamaria a API aqui
+        alert('Senha alterada com sucesso! (protótipo)');
+        window.location.href = 'informacoes.html';
+      }
+    });
+  </script>
+</body>
+</html>

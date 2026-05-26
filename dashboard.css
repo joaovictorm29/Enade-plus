@@ -1,0 +1,598 @@
+/* ============================================================
+   dashboard.css — Estilos compartilhados entre todas as telas
+   internas (dashboard, perfil, informações, alterar senha).
+   Importado junto com style.css em todas essas páginas.
+   ============================================================ */
+
+body {
+  background: #F1F5F9;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ─────────────────────────────────────────────────── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 64px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.topbar-logo-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.topbar-logo-icon::after {
+  content: '+';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  background: #60A5FA;
+  border-radius: 50%;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid white;
+  line-height: 1;
+}
+
+.topbar-brand-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 1px;
+}
+
+.topbar-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #EEF2FF;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  cursor: pointer;
+  transition: border-color var(--transition);
+  text-decoration: none;
+}
+
+.topbar-avatar:hover {
+  border-color: var(--primary);
+  background: #E0E7FF;
+}
+
+/* ── LAYOUT PRINCIPAL ────────────────────────────────────────── */
+/*
+  Duas colunas: sidebar fixa + conteúdo flexível.
+  Nas telas de perfil, o painel direito é diferente do dashboard,
+  mas a estrutura de grid é a mesma — reaproveitamos tudo.
+*/
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: calc(100vh - 64px);
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────── */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+}
+
+.sidebar-nav {
+  list-style: none;
+}
+
+.sidebar-nav li a {
+  display: block;
+  padding: 11px 24px;
+  font-size: 15px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition), background var(--transition);
+  border-left: 3px solid transparent;
+}
+
+.sidebar-nav li a:hover {
+  color: var(--primary);
+  background: #F0F4FF;
+}
+
+.sidebar-nav li a.active {
+  color: var(--primary);
+  font-weight: 600;
+  border-left-color: var(--primary);
+  background: #EEF2FF;
+}
+
+/* ── CONTEÚDO DO DASHBOARD ───────────────────────────────────── */
+.main-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.cards-row   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cards-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.cards-row-3 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.stat-card { display: flex; align-items: center; gap: 16px; }
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: #F8FAFC;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.simulado-card .stat-icon { width: 44px; height: 44px; }
+.simulado-card .stat-value { font-size: 26px; letter-spacing: 1px; }
+
+.simulado-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+.badge-best  { background: #DCFCE7; color: #166534; }
+.badge-worst { background: #FEE2E2; color: #991B1B; }
+
+.difficulty-list { list-style: none; margin-top: 12px; }
+
+.difficulty-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  font-size: 15px;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border);
+}
+
+.difficulty-list li:last-child { border-bottom: none; }
+
+.diff-rank {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--primary);
+  width: 20px;
+  flex-shrink: 0;
+}
+
+/* ── CALENDÁRIO HEATMAP ──────────────────────────────────────── */
+.cal-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.cal-day-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.cal-grid    { display: flex; flex-direction: column; gap: 4px; }
+
+.cal-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: #E2E8F0;
+  transition: transform 0.1s;
+}
+
+.cal-cell:hover { transform: scale(1.2); cursor: default; }
+.cal-cell.level-1 { background: #BBF7D0; }
+.cal-cell.level-2 { background: #4ADE80; }
+.cal-cell.level-3 { background: #16A34A; }
+
+/* ── PERFIL SIDEBAR (lado esquerdo das telas de perfil) ─────── */
+/*
+  Nas telas de perfil, o "sidebar" esquerdo deixa de ser
+  uma nav e passa a mostrar foto + dados do usuário.
+  Criamos uma variação .profile-sidebar para isso.
+*/
+.profile-sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #EEF2FF;
+  border: 3px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.profile-name {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.profile-handle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: -8px;
+}
+
+.profile-info-item {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── PAINEL DE CONTEÚDO DO PERFIL ────────────────────────────── */
+.profile-panel {
+  padding: 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 560px;
+  width: 100%;
+}
+
+.profile-panel-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+/* ── CAMPO DE FORMULÁRIO DO PERFIL ───────────────────────────── */
+/*
+  Reutilizamos o estilo do style.css (.input-wrapper input),
+  mas aqui adicionamos variações para os campos editáveis
+  com ícone de lápis à direita (igual ao wireframe).
+*/
+.profile-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.profile-field .input-wrapper input {
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 44px 12px 16px;
+  font-size: 15px;
+  width: 100%;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.profile-field .input-wrapper input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 90, 224, 0.1);
+  background: white;
+}
+
+/* Ícone de lápis (editar) dentro do campo */
+.edit-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* não bloqueia clique no input */
+}
+
+/* Select customizado (dropdown de cursos) */
+.profile-field select {
+  width: 100%;
+  padding: 12px 44px 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--input-bg);
+  outline: none;
+  appearance: none; /* remove a seta padrão do sistema operacional */
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.profile-field select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 90, 224, 0.1);
+  background: white;
+}
+
+/* Wrapper do select com ícone de seta customizado */
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  /*
+    Triângulo CSS: técnica clássica.
+    Borda transparente em 3 lados + borda colorida em 1 lado
+    cria a ilusão de um triângulo sem usar imagem.
+  */
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--text-muted);
+  pointer-events: none;
+}
+
+/* ── BOTÕES SECUNDÁRIOS (Alterar Senha, Deletar Conta) ───────── */
+.btn-secondary {
+  width: 100%;
+  padding: 13px;
+  background: white;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.btn-secondary:hover {
+  background: #EEF2FF;
+}
+
+/* Botão destrutivo (Deletar Conta) — vermelho */
+.btn-danger {
+  width: 100%;
+  padding: 13px;
+  background: white;
+  color: #DC2626;
+  border: 1.5px solid #FCA5A5;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.btn-danger:hover {
+  background: #FEF2F2;
+  border-color: #DC2626;
+}
+
+/* ── BOTÃO VOLTAR (topbar) ───────────────────────────────────── */
+.topbar-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color var(--transition);
+  padding: 6px 0;
+}
+
+.topbar-back:hover { color: var(--primary); }
+
+/* ── MODAL DE CONFIRMAÇÃO ────────────────────────────────────── */
+/*
+  O modal fica oculto por padrão (display: none).
+  Quando o JS adiciona a classe .is-open ao .modal-overlay,
+  ele aparece cobrindo a tela inteira.
+
+  CONCEITO: este padrão "oculto por padrão + toggle de classe"
+  é o mais usado em UIs web. Evita recarregar a página e é
+  mais rápido que criar/destruir o elemento no DOM.
+*/
+.modal-overlay {
+  display: none;
+  position: fixed;          /* cobre a tela independente do scroll */
+  inset: 0;                 /* shorthand para top/right/bottom/left: 0 */
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Quando .is-open é adicionado pelo JS, o modal aparece */
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal-box {
+  background: white;
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  animation: fadeInUp 0.25s ease;
+}
+
+.modal-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #FEF2F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DC2626;
+  margin: 0 auto 16px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Botão de cancelar no modal */
+.btn-cancel {
+  padding: 12px;
+  background: #F1F5F9;
+  color: var(--text-dark);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-cancel:hover { background: var(--border); }
+
+/* Botão confirmar exclusão no modal */
+.btn-confirm-delete {
+  padding: 12px;
+  background: #DC2626;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-confirm-delete:hover { background: #B91C1C; }
+
+/* ── HINT DE FORÇA DE SENHA ──────────────────────────────────── */
+.password-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding: 10px 14px;
+  background: #F8FAFC;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--border);
+  margin-top: 4px;
+}
