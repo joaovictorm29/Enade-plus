@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Login</title>
+
+  <!-- Google Fonts: Outfit (display/títulos) + Inter (corpo) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="auth-layout">
+
+    <div class="panel-left">
+      <div class="brand-logo">e</div>
+      <div class="brand-name">ENADE</div>
+      <div class="brand-tagline-label">PLUS</div>
+      <div class="brand-divider"></div>
+      <p class="brand-slogan">
+        Transformando horas de estudo em resultados reais: prepare-se para o ENADE com foco, estratégia e confiança.
+      </p>
+    </div>
+
+    <div class="panel-right">
+      <div class="form-container">
+
+        <h1 class="form-title">Bem-vindo de volta</h1>
+        <p class="form-subtitle">Entre na sua conta para continuar</p>
+
+        <!-- Atributo action="#" evita que o form navegue para outra URL -->
+        <form id="login-form" action="#" novalidate>
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Senha</label>
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                class="has-icon"
+                autocomplete="current-password"
+              />
+
+              <button type="button" class="toggle-password" data-target="password" aria-label="Mostrar senha">
+                <!-- Ícone SVG de olho (inline para não depender de biblioteca) -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <a href="recuperar-senha.html" class="forgot-link">Esqueceu a senha?</a>
+
+          <button type="submit" class="btn-primary" href="dashboard.html">Entrar</button>
+
+          <div class="divider">ou</div>
+
+          <p class="auth-link">
+            Não tem uma conta? <a href="cadastro.html">Criar conta</a>
+          </p>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

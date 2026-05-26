@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Recuperar senha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Ícone decorativo acima do título nesta tela */
+    .recovery-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(43, 90, 224, 0.08);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+
+    .form-hint {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+      padding: 14px 16px;
+      background: #F0F4FF;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-layout">
+
+    <div class="panel-left">
+      <div class="brand-logo">e</div>
+      <div class="brand-name">ENADE</div>
+      <div class="brand-tagline-label">PLUS</div>
+      <div class="brand-divider"></div>
+      <p class="brand-slogan">
+        Não se preocupe — acontece com todo mundo. Vamos te ajudar a recuperar o acesso rapidinho.
+      </p>
+    </div>
+
+
+    <div class="panel-right">
+      <div class="form-container">
+
+        <a href="index.html" class="back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+          Voltar ao login
+        </a>
+
+        <!-- Ícone decorativo de cadeado -->
+        <div class="recovery-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+
+        <h1 class="form-title">Recuperar senha</h1>
+        <p class="form-subtitle">Informe seu e-mail para receber as instruções</p>
+
+        <div class="form-hint">
+          Enviaremos um link para redefinir sua senha. Verifique também a pasta de spam.
+        </div>
+
+        <form id="recovery-form" action="#" novalidate>
+
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <div class="input-wrapper">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="margin-top: 8px;">
+            Enviar instruções
+          </button>
+
+          <div class="divider">ou</div>
+
+          <p class="auth-link">
+            Lembrou a senha? <a href="index.html">Entrar</a>
+          </p>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
