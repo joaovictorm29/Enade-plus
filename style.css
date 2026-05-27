@@ -386,6 +386,7 @@ html, body {
   to   { opacity: 1; }
 }
 
+
 /* ============================================================
    RESPONSIVIDADE — Mobile
    Quando a tela for menor que 768px, remove a coluna esquerda
@@ -404,3 +405,4 @@ html, body {
     padding: 40px 24px;
   }
 }
+  

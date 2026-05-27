@@ -1,0 +1,426 @@
+/* ============================================================
+   simulados.css — Estilos exclusivos da tela de Simulados
+   ============================================================ */
+
+.sim-main {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Cabeçalho: título à esquerda, botão filtro à direita */
+.sim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+/* ── BOTÃO DE FILTRO ──────────────────────────────────────── */
+.btn-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.btn-filter:hover,
+.btn-filter.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 90, 224, 0.08);
+}
+
+/* ── DROPDOWN DE FILTRO ───────────────────────────────────── */
+/*
+  position: relative no wrapper + position: absolute no dropdown
+  é o padrão para menus "flutuantes".
+  O dropdown aparece exatamente sob o botão, sem deslocar o layout.
+*/
+.filter-wrapper {
+  position: relative;
+}
+
+.filter-dropdown {
+  display: none;               /* oculto por padrão */
+  position: absolute;
+  top: calc(100% + 8px);       /* 8px abaixo do botão */
+  right: 0;                    /* alinha à direita do wrapper */
+  width: 220px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 200;
+  animation: fadeInDown 0.18s ease;
+}
+
+.filter-dropdown.is-open {
+  display: block;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--input-bg);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
+
+.filter-select:focus {
+  border-color: var(--primary);
+}
+
+/* Cada opção clicável de data dentro do filtro */
+.filter-date-item {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-dark);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.filter-date-item:hover,
+.filter-date-item.selected {
+  border-color: var(--primary);
+  background: #EEF2FF;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ── CARD DO SIMULADO (accordion) ─────────────────────────── */
+.sim-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;             /* o conteúdo expandido fica dentro do radius */
+  transition: box-shadow var(--transition);
+}
+
+.sim-card:hover {
+  box-shadow: 0 4px 16px rgba(43, 90, 224, 0.07);
+}
+
+/* Linha de cabeçalho clicável do accordion */
+.sim-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;            /* evita selecionar texto ao clicar */
+  gap: 12px;
+}
+
+.sim-card-header:hover {
+  background: #FAFBFF;
+}
+
+.sim-card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  flex: 1;
+}
+
+/* Badge de data ao lado direito do título */
+.sim-date-badge {
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+/* Seta de expand/collapse */
+.sim-chevron {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+/*
+  Quando o card tem .is-open, a seta rotaciona 180°.
+  Isso é feito só com CSS — o JS apenas adiciona/remove a classe.
+  Esse padrão é muito eficiente: separação de responsabilidades.
+  JS controla o ESTADO, CSS controla a APARÊNCIA do estado.
+*/
+.sim-card.is-open .sim-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── CORPO EXPANSÍVEL DO ACCORDION ───────────────────────── */
+/*
+  Usamos max-height para animar a abertura/fechamento.
+  display: none não tem transição; max-height: 0 → max-height: 999px sim.
+
+  O truque: quando fechado, max-height: 0 + overflow: hidden esconde tudo.
+  Quando aberto, max-height: 600px (valor maior que o conteúdo real).
+  O CSS interpola entre os dois valores criando a animação.
+*/
+.sim-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.sim-card.is-open .sim-card-body {
+  max-height: 600px;
+}
+
+.sim-card-body-inner {
+  padding: 0 20px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* ── MINI-CARDS DE ESTATÍSTICA DENTRO DO ACCORDION ────────── */
+.sim-stats {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.sim-stat-card {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sim-stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.sim-stat-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1;
+}
+
+/* Valor quando simulado ainda não foi feito */
+.sim-stat-value.empty {
+  color: var(--text-muted);
+  font-size: 18px;
+}
+
+.sim-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* ── AÇÕES DO CARD (botões à direita) ─────────────────────── */
+.sim-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.sim-btn {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  transition: all var(--transition);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Botão primário dentro do card */
+.sim-btn.primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.sim-btn.primary:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 4px 12px rgba(43, 90, 224, 0.3);
+}
+
+/* Botão secundário (ghost) */
+.sim-btn.ghost {
+  background: white;
+  color: var(--text-dark);
+}
+
+.sim-btn.ghost:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #EEF2FF;
+}
+
+/* Botão desabilitado (Selecionar tentativa sem tentativas) */
+.sim-btn:disabled,
+.sim-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── DROPDOWN DE TENTATIVAS ───────────────────────────────── */
+/*
+  Mesmo padrão do filtro: position relative no wrapper,
+  position absolute no dropdown.
+  Cada card tem seu próprio wrapper, então os dropdowns
+  se posicionam independentemente.
+*/
+.tentativas-wrapper {
+  position: relative;
+}
+
+.tentativas-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 180px;
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 200;
+  animation: fadeInDown 0.18s ease;
+}
+
+.tentativas-dropdown.is-open {
+  display: block;
+}
+
+.tentativas-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.tentativa-item {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-dark);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.tentativa-item:last-child { margin-bottom: 0; }
+
+.tentativa-item:hover,
+.tentativa-item.selected {
+  border-color: var(--primary);
+  background: #EEF2FF;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Modal de seleção de tentativa */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.tentativa-modal-item {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), color var(--transition);
+}
+
+.tentativa-modal-item.selected,
+.tentativa-modal-item:hover {
+  border-color: var(--primary);
+  background: #EEF2FF;
+  color: var(--primary);
+}
+
+.tentativa-modal-date {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.tentativa-modal-details {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}

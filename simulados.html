@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Simulados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="simulados.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-brand">
+      <div class="topbar-logo-icon">e</div>
+      <span class="topbar-brand-name">ENADE+</span>
+    </a>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">Resultados</a></li>
+        <li><a href="simulados.html" class="active">Simulados</a></li>
+        <li><a href="#">Banco de Questões</a></li>
+      </ul>
+    </aside>
+
+    <main class="sim-main">
+
+      <!-- Cabeçalho da seção com botão de filtro -->
+      <div class="sim-header">
+        <h1 class="section-title">Simulados</h1>
+
+        <!--
+          Botão de filtro + dropdown posicionado.
+          O wrapper tem position: relative para o dropdown
+          se posicionar em relação a ele (não à página toda).
+        -->
+        <div class="filter-wrapper">
+          <button class="btn-filter" id="btn-filtro" aria-label="Filtrar simulados">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            Filtro
+          </button>
+
+          <!--
+            Dropdown do filtro.
+            Fica oculto por padrão; JS adiciona .is-open para exibir.
+            position: absolute → flutua sobre o conteúdo sem empurrar nada.
+          -->
+          <div class="filter-dropdown" id="filtro-dropdown">
+            <p class="filter-label">Filtrar por</p>
+            <select class="filter-select" id="filtro-tipo">
+              <option value="ano">Ano</option>
+              <option value="mes">Mês</option>
+            </select>
+
+            <!-- Bloco de seleção de data: muda conforme o select acima -->
+            <div class="filter-date-block" id="filtro-date-block">
+              <p class="filter-label" style="margin-top:12px;">Selecione a data:</p>
+              <div class="filter-date-list" id="filtro-date-list">
+                <!-- Gerado pelo JS com base nos dados dos simulados -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de simulados -->
+      <div class="sim-list" id="sim-list">
+        <!--
+          Cada .sim-card é um accordion.
+          data-id identifica unicamente cada simulado para o JS.
+          data-feito="true/false" controla qual versão do card renderizar.
+          Os dados reais virão do backend; aqui são hardcoded para o protótipo.
+        -->
+      </div>
+
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modal-tentativas">
+    <div class="modal-box">
+      <h2 class="modal-title" id="modal-tentativas-title">Selecionar tentativa</h2>
+      <p class="modal-desc" id="modal-tentativas-desc">
+        Escolha o dia da tentativa para ver seus resultados anteriores.
+      </p>
+      <div class="modal-body" id="modal-tentativas-body"></div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btn-fechar-tentativas">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="simulados.js"></script>
+</body>
+</html>
