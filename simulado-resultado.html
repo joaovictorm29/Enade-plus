@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Resultado do Simulado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <style>
+    .resultado-main {
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      max-width: 720px;
+    }
+
+    .resultado-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .resultado-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .resultado-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    /* Cards de estatísticas do resultado */
+    .resultado-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .resultado-stat {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .resultado-stat-value {
+      font-family: var(--font-display);
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+
+    .resultado-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Gabarito detalhado por questão */
+    .gabarito-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .gabarito-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Alternativas e justificativas no resultado */
+    .alt-lista {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .alt-block {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+    }
+
+    .alt-head {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      font-size:14px;
+      color:var(--text-dark);
+    }
+
+    .alt-letra {
+      font-family:var(--font-display);
+      font-weight:700;
+      min-width:20px;
+    }
+
+    .alt-justificacao {
+      margin-top:6px;
+      font-size:13px;
+      color:var(--text-muted);
+      line-height:1.4;
+    }
+
+    .alt-justificacao.correct { color: #065f46; }
+    .alt-justificacao.incorrect { color: #7f1d1d; }
+
+    .alt-selected { box-shadow: 0 0 0 3px rgba(59,130,246,0.06); }
+
+    .gabarito-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .gabarito-num {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-muted);
+      min-width: 72px;
+    }
+
+    /* Ícone de acerto (verde) ou erro (vermelho) */
+    .gabarito-icone {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .gabarito-icone.acerto { background: #DCFCE7; color: #16A34A; }
+    .gabarito-icone.erro   { background: #FEE2E2; color: #DC2626; }
+    .gabarito-icone.branco { background: #F1F5F9; color: var(--text-muted); }
+
+    .gabarito-info {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .gabarito-info strong { color: var(--text-dark); }
+
+    /* Banner de tempo esgotado */
+    .aviso-tempo {
+      background: #FEF3C7;
+      border: 1.5px solid #FCD34D;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 14px;
+      color: #92400E;
+      display: none;
+    }
+
+    .aviso-tempo.visivel { display: block; }
+
+    .resultado-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-brand">
+      <div class="topbar-logo-icon">e</div>
+      <span class="topbar-brand-name">ENADE+</span>
+    </a>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">Resultados</a></li>
+        <li><a href="simulados.html" class="active">Simulados</a></li>
+        <li><a href="#">Banco de Questões</a></li>
+      </ul>
+    </aside>
+
+    <main class="resultado-main" id="resultado-main">
+      <!-- Preenchido pelo JS -->
+    </main>
+  </div>
+
+  <script>
+    var letras = ['A', 'B', 'C', 'D', 'E'];
+    var areasPorQuestao = ['Formação Geral', 'Componente Específico', 'Componente Específico'];
+
+    /*
+      Lê o resultado salvo pela tela da prova.
+      Se não houver dado (ex: usuário acessou direto pela URL),
+      redireciona para simulados.
+    */
+    var dadosStr = sessionStorage.getItem('sim_resultado');
+    if (!dadosStr) {
+      window.location.href = 'simulados.html';
+    }
+
+    var dados = JSON.parse(dadosStr);
+    var pct = Math.round((dados.acertos / dados.total) * 100);
+
+    // Monta o HTML do gabarito incluindo justificativas por alternativa
+    var gabaritoHTML = dados.respostas.map(function(resp, i) {
+      var gabarito = (dados.questoes && dados.questoes[i] && typeof dados.questoes[i].gabarito !== 'undefined') ? dados.questoes[i].gabarito : dados.gabaritos[i];
+      var semResposta = resp === null;
+      var acertou = resp === gabarito;
+
+      var iconeCls, iconeHTML;
+      if (semResposta) {
+        iconeCls = 'branco';
+        iconeHTML = '—';
+      } else if (acertou) {
+        iconeCls = 'acerto';
+        iconeHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      } else {
+        iconeCls = 'erro';
+        iconeHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      }
+
+      var respostaTexto = semResposta ? 'Não respondida' : 'Sua resposta: ' + (resp !== null ? letras[resp] : '—');
+      var gabaritoTexto = 'Gabarito: ' + letras[gabarito];
+
+      // Se houver os dados das questões, mostramos cada alternativa com justificativa
+      var alternativasHTML = '';
+      if (dados.questoes && dados.questoes[i]) {
+        var q = dados.questoes[i];
+        alternativasHTML = (q.alternativas || []).map(function(alt, j) {
+          var isCorrect = j === q.gabarito;
+          var isSelected = resp === j;
+          var just = (q.justificativas && q.justificativas[j]) ? q.justificativas[j] : '';
+          return `
+            <div class="alt-block ${isSelected ? 'alt-selected' : ''}">
+              <div class="alt-head">
+                <span class="alt-letra">${letras[j]}.</span>
+                <div class="alt-texto">${alt}</div>
+                <div style="margin-left:auto;font-size:12px;color:${isCorrect? '#065f46':'#7f1d1d'};font-weight:700">${isCorrect ? 'Correta' : (isSelected ? 'Sua resposta' : '')}</div>
+              </div>
+              <div class="alt-justificacao ${isCorrect ? 'correct' : 'incorrect'}">${just}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      return `
+        <div class="gabarito-item">
+          <span class="gabarito-num">Questão ${String(i+1).padStart(2,'0')}</span>
+          <div class="gabarito-icone ${iconeCls}">${iconeHTML}</div>
+          <div class="gabarito-info">
+            <strong>${(dados.questoes && dados.questoes[i] && dados.questoes[i].area) || areasPorQuestao[i]}</strong><br>
+            ${respostaTexto} &nbsp;·&nbsp; ${gabaritoTexto}
+            <div class="alt-lista">${alternativasHTML}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('resultado-main').innerHTML = `
+      <div class="resultado-header">
+        <h1 class="resultado-title">Resultado — ENADE ${dados.ano}</h1>
+        <p class="resultado-subtitle">
+          ${dados.porTempo ? 'O tempo esgotou.' : 'Simulado finalizado com sucesso.'}
+          Confira seu desempenho abaixo.
+        </p>
+      </div>
+
+      <div class="aviso-tempo ${dados.porTempo ? 'visivel' : ''}">
+        ⏱ O tempo de prova esgotou e o simulado foi encerrado automaticamente.
+      </div>
+
+      <div class="resultado-stats">
+        <div class="resultado-stat">
+          <div class="resultado-stat-value">${dados.acertos}/${dados.total}</div>
+          <div class="resultado-stat-label">Questões corretas</div>
+        </div>
+        <div class="resultado-stat">
+          <div class="resultado-stat-value">${pct}%</div>
+          <div class="resultado-stat-label">Aproveitamento</div>
+        </div>
+        <div class="resultado-stat">
+          <div class="resultado-stat-value">${dados.tempo}</div>
+          <div class="resultado-stat-label">Tempo gasto</div>
+        </div>
+      </div>
+
+      <div>
+        <p class="gabarito-title">Gabarito</p>
+        <div class="gabarito-lista">${gabaritoHTML}</div>
+      </div>
+
+      <div class="resultado-footer">
+        <a href="simulados.html" style="text-decoration:none;">
+          <button class="btn-primary" style="width:auto;padding:13px 32px;">
+            Voltar aos Simulados
+          </button>
+        </a>
+      </div>
+    `;
+
+    // Limpa os dados da sessão após exibir
+    sessionStorage.removeItem('sim_resultado');
+    sessionStorage.removeItem('sim_respostas');
+    sessionStorage.removeItem('sim_tempo');
+  </script>
+</body>
+</html>

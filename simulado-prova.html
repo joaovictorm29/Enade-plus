@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Simulado em Andamento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <style>
+    .prova-main {
+      padding: 36px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      max-width: 860px;
+    }
+
+    /* Cabeçalho da questão: número + cronômetro */
+    .questao-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .questao-numero {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    /*
+      Cronômetro: badge no canto superior direito.
+      Ficará vermelho quando restar pouco tempo (feito pelo JS).
+    */
+    .cronometro {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    /* Estado de alerta: quando restar menos de 30min */
+    .cronometro.alerta {
+      border-color: #FCA5A5;
+      color: #DC2626;
+      background: #FEF2F2;
+    }
+
+    /* Enunciado da questão */
+    .questao-enunciado {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-dark);
+    }
+
+    /* Lista de alternativas */
+    .alternativas {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    /*
+      Cada alternativa é um <label> que envolve o <input type="radio">.
+      Isso faz com que clicar em qualquer parte da alternativa
+      (texto ou círculo) marque a opção — não só no círculo.
+
+      O <input> real fica oculto (display:none) e criamos
+      um visual customizado com CSS.
+    */
+    .alternativa {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition);
+      user-select: none;
+    }
+
+    .alternativa:hover {
+      border-color: var(--primary);
+      background: #FAFBFF;
+    }
+
+    /* Quando o radio dentro da alternativa está marcado */
+    .alternativa:has(input:checked) {
+      border-color: var(--primary);
+      background: #EEF2FF;
+    }
+
+    /* Letra da alternativa (A, B, C...) */
+    .alt-letra {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 20px;
+      padding-top: 1px;
+    }
+
+    /* Círculo customizado do radio */
+    .alt-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: border-color var(--transition);
+    }
+
+    /* Ponto interno que aparece quando selecionado */
+    .alt-radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .alternativa:has(input:checked) .alt-radio {
+      border-color: var(--primary);
+    }
+
+    .alternativa:has(input:checked) .alt-radio::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* O <input> real fica invisível — só o visual customizado aparece */
+    .alt-input { display: none; }
+
+    .alt-texto {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--text-dark);
+    }
+
+    /* Rodapé com botões de navegação */
+    .prova-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-nav {
+      padding: 13px 28px;
+      background: white;
+      color: var(--text-dark);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #EEF2FF;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Botão de enviar (aparece na última questão) */
+    .btn-nav.enviar {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn-nav.enviar:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 4px 16px rgba(43, 90, 224, 0.35);
+    }
+
+    /* Indicador de progresso (bolinha por questão) */
+    .progresso {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .prog-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.2s;
+    }
+
+    .prog-dot.respondida { background: var(--primary); }
+    .prog-dot.atual      { background: var(--primary); box-shadow: 0 0 0 3px rgba(43,90,224,0.2); }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="#" class="topbar-brand" id="link-sair">
+      <div class="topbar-logo-icon">e</div>
+      <span class="topbar-brand-name">ENADE+</span>
+    </a>
+    <a href="perfil.html" class="topbar-avatar" id="link-perfil">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="#" class="nav-sair">Resultados</a></li>
+        <li><a href="#" class="nav-sair active">Simulados</a></li>
+        <li><a href="#" class="nav-sair">Banco de Questões</a></li>
+      </ul>
+    </aside>
+
+    <main class="prova-main" id="prova-main">
+      <!-- Conteúdo injetado pelo JS -->
+    </main>
+  </div>
+
+  <!-- Modal de confirmação de saída -->
+  <div class="modal-overlay" id="modal-sair">
+    <div class="modal-box">
+      <div class="modal-icon" style="background:#FEF3C7;color:#D97706;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <h2 class="modal-title">Sair do simulado?</h2>
+      <p class="modal-desc">
+        Todo o seu progresso será perdido. Esta ação não pode ser desfeita.
+      </p>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btn-continuar">Continuar prova</button>
+        <button class="btn-confirm-delete" id="btn-confirmar-saida">Sair mesmo assim</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    /* ============================================================
+       DADOS DA PROVA
+       Em produção, viriam de uma API. Aqui são 3 questões reais
+       do ENADE de Ciência da Computação.
+    ============================================================ */
+    var questoes = [
+      {
+        numero: 1,
+        area: 'Formação Geral',
+        enunciado: 'A inteligência artificial tem transformado profundamente as relações de trabalho e a sociedade. Nesse contexto, considerando os princípios éticos que devem nortear o desenvolvimento e o uso de sistemas de IA, avalie as afirmações a seguir:\n\nI. A transparência algorítmica é dispensável quando o sistema produz bons resultados práticos.\nII. O viés algorítmico pode perpetuar e amplificar desigualdades sociais preexistentes.\nIII. A responsabilidade sobre os danos causados por um sistema de IA deve ser compartilhada entre desenvolvedores, operadores e reguladores.\n\nÉ correto o que se afirma em:',
+        alternativas: [
+          'Apenas I.',
+          'Apenas II.',
+          'I e III, apenas.',
+          'II e III, apenas.',
+          'I, II e III.'
+        ],
+        gabarito: 3, // índice 0-based (D)
+        justificativas: [
+          'A alternativa A afirma que apenas I. — incorreto porque a transparência é essencial mesmo quando resultados práticos parecem bons.',
+          'A alternativa B afirma que apenas II. — incorreto pois II é correta, mas III também é correta.',
+          'A alternativa C afirma que I e III, apenas. — incorreto porque I é falso.',
+          'A alternativa D afirma que II e III, apenas. — correto. O viés algorítmico pode perpetuar desigualdades e a responsabilidade deve ser compartilhada.',
+          'A alternativa E afirma que I, II e III. — incorreto porque I é falso.'
+        ]
+      },
+      {
+        numero: 2,
+        area: 'Componente Específico',
+        enunciado: 'Considere um grafo G = (V, E) não dirigido e conexo com n vértices e m arestas. Uma árvore geradora mínima (AGM) de G é um subgrafo que conecta todos os vértices com o menor peso total possível.\n\nSobre os algoritmos de Prim e Kruskal para encontrar a AGM, analise as afirmações:\n\nI. O algoritmo de Kruskal ordena as arestas por peso e utiliza a estrutura Union-Find para detectar ciclos.\nII. O algoritmo de Prim é mais eficiente que o Kruskal em grafos densos quando implementado com heap de Fibonacci.\nIII. Ambos os algoritmos sempre produzem a mesma AGM para qualquer grafo com pesos distintos.\n\nEstão corretas:',
+        alternativas: [
+          'Apenas I.',
+          'Apenas III.',
+          'I e II, apenas.',
+          'II e III, apenas.',
+          'I, II e III.'
+        ],
+        gabarito: 4,
+        justificativas: [
+          'A alternativa A afirma apenas I. — incorreto; I é verdadeiro mas não é suficiente.',
+          'A alternativa B afirma apenas III. — incorreto; III é verdadeiro mas I e II também têm mérito.',
+          'A alternativa C afirma I e II, apenas. — parcialmente correta, mas III também costuma ser verdadeiro em muitos contextos.',
+          'A alternativa D afirma II e III, apenas. — parcialmente correta, mas I também é verdadeira para a maioria das implementações.',
+          'A alternativa E afirma I, II e III. — correta quando os pesos são distintos e as propriedades teóricas se aplicam.'
+        ]
+      },
+      {
+        numero: 3,
+        area: 'Componente Específico',
+        enunciado: 'Em arquitetura de computadores, a hierarquia de memória é projetada para equilibrar custo, capacidade e velocidade de acesso. O princípio da localidade é fundamental para a eficiência dos sistemas de cache.\n\nConsidere um processador com cache L1 de 32 KB, tempo de acesso de 1 ns e taxa de acerto de 95%. A memória principal possui tempo de acesso de 100 ns. Qual é o tempo médio de acesso à memória (TMAM) para esse sistema, considerando apenas L1 e memória principal?',
+        alternativas: [
+          '5,95 ns',
+          '6,00 ns',
+          '5,00 ns',
+          '10,00 ns',
+          '100,95 ns'
+        ],
+        gabarito: 0,
+        justificativas: [
+          'A alternativa A (5,95 ns) — correta. TMAM = 0.95*1ns + 0.05*100ns = 0.95 + 5 = 5.95 ns.',
+          'A alternativa B (6,00 ns) — arredondamento impreciso do cálculo correto.',
+          'A alternativa C (5,00 ns) — subestima o impacto da memória principal.',
+          'A alternativa D (10,00 ns) — erro de cálculo, muito alto para as taxas dadas.',
+          'A alternativa E (100,95 ns) — assume taxa de acerto muito baixa; incorreta.'
+        ]
+      }
+    ];
+
+    /* ============================================================
+       ESTADO DA PROVA
+    ============================================================ */
+    var questaoAtual = 0;
+    /*
+      respostas: array com o mesmo tamanho de questoes.
+      null = não respondida, número = índice da alternativa escolhida.
+    */
+    var respostas = new Array(questoes.length).fill(null);
+    var tempoSegundos = 240 * 60; // 240 minutos em segundos
+    var intervalo = null;
+    var provaFinalizada = false;
+
+    /* ============================================================
+       CRONÔMETRO
+       setInterval executa uma função a cada N milissegundos.
+       Guardamos a referência (intervalo) para poder pausá-lo
+       com clearInterval() ao finalizar a prova.
+    ============================================================ */
+    function iniciarCronometro() {
+      intervalo = setInterval(function() {
+        tempoSegundos--;
+        sessionStorage.setItem('sim_tempo', tempoSegundos);
+        atualizarCronometro();
+
+        if (tempoSegundos <= 0) {
+          clearInterval(intervalo);
+          finalizarProva(true); // tempo esgotado
+        }
+      }, 1000);
+    }
+
+    function atualizarCronometro() {
+      var horas   = Math.floor(tempoSegundos / 3600);
+      var minutos = Math.floor((tempoSegundos % 3600) / 60);
+      var segs    = tempoSegundos % 60;
+
+      var texto = horas > 0
+        ? horas + 'h' + pad(minutos) + 'm'
+        : pad(minutos) + 'm' + pad(segs) + 's';
+
+      var el = document.getElementById('cronometro');
+      if (!el) return;
+      el.textContent = 'Tempo: ' + texto;
+
+      // Alerta visual quando restam menos de 30 minutos
+      if (tempoSegundos < 30 * 60) {
+        el.classList.add('alerta');
+      }
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : n; }
+
+    /* ============================================================
+       RENDERIZAÇÃO DA QUESTÃO
+    ============================================================ */
+    function renderQuestao(index) {
+      var q = questoes[index];
+      var total = questoes.length;
+      var isUltima = index === total - 1;
+      var isPrimeira = index === 0;
+
+      /*
+        Template literal com múltiplas linhas.
+        Convertemos \n do enunciado em <br> para quebra de linha no HTML.
+        split('\n').join('<br>') é equivalente a um replace global.
+      */
+      var enunciadoHTML = q.enunciado.split('\n').join('<br>');
+
+      var alternativasHTML = q.alternativas.map(function(alt, i) {
+        var letras = ['A', 'B', 'C', 'D', 'E'];
+        var checked = respostas[index] === i ? 'checked' : '';
+        return `
+          <label class="alternativa">
+            <span class="alt-letra">${letras[i]}.</span>
+            <div class="alt-radio"></div>
+            <input type="radio" name="alternativa" value="${i}" class="alt-input" ${checked}>
+            <span class="alt-texto">${alt}</span>
+          </label>
+        `;
+      }).join('');
+
+      var progressoHTML = questoes.map(function(_, i) {
+        var cls = 'prog-dot';
+        if (i === index) cls += ' atual';
+        else if (respostas[i] !== null) cls += ' respondida';
+        return `<div class="${cls}"></div>`;
+      }).join('');
+
+      document.getElementById('prova-main').innerHTML = `
+        <div class="questao-header">
+          <span class="questao-numero">Questão ${pad(q.numero)}:</span>
+          <div class="cronometro" id="cronometro">Tempo: --</div>
+        </div>
+
+        <div style="font-size:12px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;">
+          ${q.area}
+        </div>
+
+        <p class="questao-enunciado">${enunciadoHTML}</p>
+
+        <div class="alternativas" id="alternativas">
+          ${alternativasHTML}
+        </div>
+
+        <div class="prova-footer">
+          <button class="btn-nav" id="btn-anterior" ${isPrimeira ? 'disabled' : ''}>
+            Questão Anterior
+          </button>
+          <div class="progresso">${progressoHTML}</div>
+          <button class="btn-nav ${isUltima ? 'enviar' : ''}" id="btn-proxima">
+            ${isUltima ? 'Enviar Simulado' : 'Próxima Questão'}
+          </button>
+        </div>
+      `;
+
+      // Atualiza o cronômetro imediatamente (sem esperar 1s)
+      atualizarCronometro();
+      anexarListeners();
+    }
+
+    /* ============================================================
+       EVENT LISTENERS DA PROVA
+       Recolocados a cada renderQuestao() porque o innerHTML
+       substitui os elementos (e seus listeners) anteriores.
+    ============================================================ */
+    function anexarListeners() {
+      // Captura escolha de alternativa
+      document.querySelectorAll('.alternativa').forEach(function(label) {
+        label.addEventListener('click', function() {
+          var input = this.querySelector('input');
+          respostas[questaoAtual] = parseInt(input.value);
+          // Salva no sessionStorage para não perder se o usuário recarregar
+          sessionStorage.setItem('sim_respostas', JSON.stringify(respostas));
+        });
+      });
+
+      // Botão anterior
+      var btnAnt = document.getElementById('btn-anterior');
+      if (btnAnt) {
+        btnAnt.addEventListener('click', function() {
+          if (questaoAtual > 0) {
+            questaoAtual--;
+            renderQuestao(questaoAtual);
+          }
+        });
+      }
+
+      // Botão próxima / enviar
+      var btnProx = document.getElementById('btn-proxima');
+      if (btnProx) {
+        btnProx.addEventListener('click', function() {
+          var isUltima = questaoAtual === questoes.length - 1;
+
+          if (isUltima) {
+            // Verifica se todas as questões foram respondidas
+            var naoRespondidas = respostas.reduce(function(acc, r, i) {
+              if (r === null) acc.push(i + 1);
+              return acc;
+            }, []);
+
+            if (naoRespondidas.length > 0) {
+              /*
+                Em vez de alert(), criamos uma mensagem mais integrada.
+                Mas como é protótipo e o alert é rápido de entender,
+                usamos confirm() que retorna true/false.
+                Em produção, substitua por um modal customizado.
+              */
+              var msg = 'Você ainda não respondeu ' + naoRespondidas.length +
+                ' questão(ões): ' + naoRespondidas.join(', ') +
+                '.\n\nDeseja enviar mesmo assim?';
+              if (!confirm(msg)) return;
+            }
+
+            finalizarProva(false);
+          } else {
+            questaoAtual++;
+            renderQuestao(questaoAtual);
+          }
+        });
+      }
+    }
+
+    /* ============================================================
+       FINALIZAR PROVA
+    ============================================================ */
+    function finalizarProva(porTempo) {
+      provaFinalizada = true;
+      clearInterval(intervalo);
+
+      // Calcula resultado
+      var acertos = respostas.reduce(function(acc, r, i) {
+        return acc + (r === questoes[i].gabarito ? 1 : 0);
+      }, 0);
+
+      var tempoGasto = (240 * 60) - tempoSegundos;
+      var minutos = Math.floor(tempoGasto / 60);
+      var horas   = Math.floor(minutos / 60);
+      var mins    = minutos % 60;
+      var tempoStr = horas > 0 ? horas + 'h' + pad(mins) + 'm' : mins + 'm';
+
+      // Salva resultado para a próxima tela (inclui as questões para justificativas)
+      sessionStorage.setItem('sim_resultado', JSON.stringify({
+        ano: sessionStorage.getItem('sim_ano') || '2024',
+        acertos: acertos,
+        total: questoes.length,
+        tempo: tempoStr,
+        porTempo: porTempo,
+        respostas: respostas,
+        gabaritos: questoes.map(function(q) { return q.gabarito; }),
+        questoes: questoes
+      }));
+
+      window.location.href = 'simulado-resultado.html';
+    }
+
+    /* ============================================================
+       MODAL DE SAÍDA
+       Intercepta qualquer link/clique que tentaria sair da prova.
+    ============================================================ */
+    var modalSair = document.getElementById('modal-sair');
+    var destino = null; // para onde o usuário tentou ir
+
+    function mostrarModalSaida(href) {
+      destino = href;
+      modalSair.classList.add('is-open');
+    }
+
+    // Intercepta links da sidebar e da topbar
+    document.querySelectorAll('.nav-sair, #link-sair, #link-perfil').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        mostrarModalSaida(this.getAttribute('href') || 'simulados.html');
+      });
+    });
+
+    document.getElementById('btn-continuar').addEventListener('click', function() {
+      modalSair.classList.remove('is-open');
+      destino = null;
+    });
+
+    document.getElementById('btn-confirmar-saida').addEventListener('click', function() {
+      provaFinalizada = true;
+      clearInterval(intervalo);
+      window.location.href = destino || 'simulados.html';
+    });
+
+    /*
+      beforeunload: evento disparado quando o usuário tenta fechar
+      a aba, recarregar ou navegar para outro site.
+      O browser mostra uma caixa de confirmação nativa.
+      Não conseguimos customizar o texto dela por segurança do browser.
+    */
+    window.addEventListener('beforeunload', function(e) {
+      if (!provaFinalizada) {
+        e.preventDefault();
+        e.returnValue = ''; // necessário para o browser mostrar o diálogo
+      }
+    });
+
+    /* ============================================================
+       INICIALIZAÇÃO
+    ============================================================ */
+    renderQuestao(0);
+    iniciarCronometro();
+  </script>
+</body>
+</html>

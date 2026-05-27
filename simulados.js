@@ -203,12 +203,12 @@ function criarCard(sim) {
                 Selecionar tentativa
               </button>
             </div>
-            <button class="sim-btn primary btn-nova-tentativa" data-id="${sim.id}">
+            <button class="sim-btn primary btn-nova-tentativa" data-id="${sim.id} " href="simulado-info.html">
               Nova tentativa
             </button>
           ` : `
             <button class="sim-btn ghost disabled" disabled>Selecionar tentativa</button>
-            <button class="sim-btn primary btn-fazer" data-id="${sim.id}">
+            <button class="sim-btn primary btn-fazer" data-id="${sim.id}" href="simulado-info.html">
               Fazer Simulado
             </button>
           `}
@@ -293,6 +293,22 @@ document.addEventListener('click', function(e) {
       if (card) card.classList.add('is-open');
       cardAbertoId = simId;
     }, 10);
+    return;
+  }
+
+  // Redirecionar para a página de introdução do simulado
+  var btnNova = e.target.closest('.btn-nova-tentativa');
+  if (btnNova) {
+    // opcional: enviar id do simulado como query string
+    var simId = btnNova.getAttribute('data-id');
+    window.location.href = 'simulado-intro.html' + (simId ? ('?sim=' + encodeURIComponent(simId.trim())) : '');
+    return;
+  }
+
+  var btnFazer = e.target.closest('.btn-fazer');
+  if (btnFazer) {
+    var simId2 = btnFazer.getAttribute('data-id');
+    window.location.href = 'simulado-intro.html' + (simId2 ? ('?sim=' + encodeURIComponent(simId2)) : '');
     return;
   }
 

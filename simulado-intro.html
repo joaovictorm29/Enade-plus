@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — ENADE 2024</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <style>
+    .intro-main {
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Cabeçalho: título grande + data */
+    .intro-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .intro-title {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.1;
+    }
+
+    .intro-date {
+      font-size: 14px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      padding-top: 12px;
+    }
+
+    /* Card de instruções */
+    .intro-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .intro-card-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .intro-card-subtitle {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-top: -8px;
+    }
+
+    .intro-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Linha de tempo */
+    .intro-time {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .intro-time span {
+      color: var(--primary);
+    }
+
+    /* Rodapé com o botão alinhado à direita */
+    .intro-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-iniciar {
+      padding: 16px 40px;
+      background: white;
+      color: var(--text-dark);
+      border: 2px solid var(--text-dark);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-iniciar:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 6px 20px rgba(43, 90, 224, 0.3);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-brand">
+      <div class="topbar-logo-icon">e</div>
+      <span class="topbar-brand-name">ENADE+</span>
+    </a>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">Resultados</a></li>
+        <li><a href="simulados.html" class="active">Simulados</a></li>
+        <li><a href="#">Banco de Questões</a></li>
+      </ul>
+    </aside>
+
+    <main class="intro-main">
+
+      <div class="intro-header">
+        <h1 class="intro-title">Enade 2024</h1>
+        <span class="intro-date">Data: 17/11/2024</span>
+      </div>
+
+      <div class="intro-card">
+        <div class="intro-card-title">40 Questões</div>
+        <div class="intro-card-subtitle">Curso: Ciências da Computação</div>
+
+        <p>
+          <strong>— Formação Geral (10 questões):</strong> Temas transversais, ética, cidadania e atualidades.
+          São 2 questões discursivas e 8 de múltipla escolha.
+        </p>
+        <p>
+          <strong>— Componente Específico (30 questões):</strong> Conteúdo focado diretamente no que você
+          estudou no seu curso. São 3 questões discursivas e 27 de múltipla escolha.
+        </p>
+
+        <div class="intro-time">
+          Tempo para realizar a prova: <span>240 min</span>
+        </div>
+      </div>
+
+      <div class="intro-footer">
+        <button class="btn-iniciar" id="btn-iniciar">Iniciar Simulado</button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('btn-iniciar').addEventListener('click', function() {
+      /*
+        Antes de navegar, limpamos qualquer dado de simulado
+        anterior armazenado no sessionStorage.
+
+        CONCEITO — sessionStorage:
+        Funciona como um dicionário (chave → valor string) que
+        persiste enquanto a aba do browser estiver aberta.
+        Ao fechar a aba, os dados somem. Diferente do localStorage,
+        que persiste mesmo após fechar o browser.
+        É perfeito para dados temporários de sessão como uma prova.
+      */
+      sessionStorage.removeItem('sim_respostas');
+      sessionStorage.removeItem('sim_tempo');
+      sessionStorage.setItem('sim_ano', '2024');
+      window.location.href = 'simulado-prova.html';
+    });
+  </script>
+</body>
+</html>
