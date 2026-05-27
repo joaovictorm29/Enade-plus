@@ -74,6 +74,9 @@ var modalTentativasSimId = null;
 var modalTentativas = document.getElementById('modal-tentativas');
 var btnFecharTentativas = document.getElementById('btn-fechar-tentativas');
 
+// Remove ano de simulado antigo para evitar valores legados na sessão (especialmente no GitHub Pages)
+try { sessionStorage.removeItem('sim_ano'); } catch (e) { /* ignore when not in browser */ }
+
 if (btnFecharTentativas) {
   btnFecharTentativas.addEventListener('click', function() {
     fecharModalTentativas();
