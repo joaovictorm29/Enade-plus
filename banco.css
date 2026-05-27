@@ -1,0 +1,366 @@
+/* ============================================================
+   banco.css — Estilos exclusivos do Banco de Questões
+   ============================================================ */
+
+.banco-main {
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── CARD DE FILTROS ─────────────────────────────────────── */
+.banco-filtros {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.filtros-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+
+/*
+  Grid de filtros: 2 colunas de igual largura.
+  gap: 12px 24px significa 12px vertical, 24px horizontal.
+*/
+.filtros-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 32px;
+  align-items: end;
+}
+
+.filtro-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtro-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.filtro-select {
+  flex: 1;
+  padding: 8px 32px 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--input-bg);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color var(--transition);
+}
+
+.filtro-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 90, 224, 0.08);
+}
+
+/* ── BARRA DE INFO ───────────────────────────────────────── */
+.banco-info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 2px 0;
+}
+
+.banco-info-bar strong {
+  color: var(--primary);
+}
+
+/* ── LISTA DE QUESTÕES ───────────────────────────────────── */
+.banco-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── CARD DE QUESTÃO ─────────────────────────────────────── */
+.questao-card {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.questao-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.questao-card-titulo {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Badges de metadados (ano, tipo, eixo) */
+.questao-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.badge-ano    { background: #EEF2FF; color: var(--primary); }
+.badge-eixo   { background: #F0FDF4; color: #15803D; }
+.badge-tipo   { background: #FFF7ED; color: #C2410C; }
+
+/* Enunciado */
+.questao-enunciado {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-dark);
+}
+
+/* ── ALTERNATIVAS (modo resposta) ────────────────────────── */
+.banco-alternativas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/*
+  Mesma lógica da prova: label envolve o input para
+  tornar toda a área clicável.
+  :has(input:checked) estiliza quando marcado.
+*/
+.banco-alt {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  user-select: none;
+}
+
+.banco-alt:hover {
+  border-color: var(--primary);
+  background: #FAFBFF;
+}
+
+.banco-alt:has(input:checked) {
+  border-color: var(--primary);
+  background: #EEF2FF;
+}
+
+.banco-alt-letra {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 18px;
+  padding-top: 1px;
+}
+
+.banco-alt-radio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: border-color var(--transition);
+}
+
+.banco-alt-radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.banco-alt:has(input:checked) .banco-alt-radio {
+  border-color: var(--primary);
+}
+
+.banco-alt:has(input:checked) .banco-alt-radio::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.banco-alt input { display: none; }
+
+.banco-alt-texto {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  flex: 1;
+}
+
+/* Rodapé do card: botão conferir à direita */
+.questao-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-conferir {
+  padding: 10px 22px;
+  background: white;
+  color: var(--text-dark);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-conferir:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #EEF2FF;
+}
+
+.btn-conferir:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── GABARITO REVELADO ───────────────────────────────────── */
+/*
+  Quando o gabarito é revelado, as alternativas ganham
+  classes extras (.acerto / .erro) e as justificativas aparecem.
+  O card entra no estado .gabarito-revelado que bloqueia
+  novas interações.
+*/
+.questao-card.gabarito-revelado .banco-alt {
+  cursor: default;
+  pointer-events: none; /* impede nova seleção após conferir */
+}
+
+/* Alternativa correta */
+.banco-alt.gabarito-certo {
+  border-color: #16A34A;
+  background: #F0FDF4;
+}
+
+.banco-alt.gabarito-certo .banco-alt-radio {
+  border-color: #16A34A;
+}
+
+.banco-alt.gabarito-certo .banco-alt-radio::after {
+  background: #16A34A;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Alternativa errada (apenas se foi a escolhida pelo usuário) */
+.banco-alt.gabarito-errado {
+  border-color: #DC2626;
+  background: #FEF2F2;
+}
+
+.banco-alt.gabarito-errado .banco-alt-radio {
+  border-color: #DC2626;
+}
+
+.banco-alt.gabarito-errado .banco-alt-radio::after {
+  background: #DC2626;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Ícone ✓ ou ✗ à direita da alternativa */
+.alt-icone {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: 8px;
+}
+
+/* Justificativa que aparece abaixo de cada alternativa */
+.alt-justificativa {
+  display: none; /* oculta antes de revelar */
+  padding: 8px 12px;
+  background: #F8FAFC;
+  border-left: 3px solid var(--border);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: -8px;    /* gruda na alternativa acima */
+  margin-bottom: 2px;
+}
+
+.alt-justificativa.visivel { display: block; }
+
+/* Borda da justificativa acompanha a cor da alternativa */
+.banco-alt.gabarito-certo  + .alt-justificativa { border-color: #16A34A; }
+.banco-alt.gabarito-errado + .alt-justificativa { border-color: #DC2626; }
+
+/* Trocar texto do botão após revelar */
+.btn-conferir.revelado {
+  background: #F0FDF4;
+  color: #16A34A;
+  border-color: #16A34A;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Estado vazio: nenhuma questão encontrada */
+.banco-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.banco-vazio svg { opacity: 0.3; }
+.banco-vazio p { font-size: 15px; }

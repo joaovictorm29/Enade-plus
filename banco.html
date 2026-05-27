@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ENADE+ — Banco de Questões</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="banco.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="dashboard.html" class="topbar-brand">
+      <div class="topbar-logo-icon">e</div>
+      <span class="topbar-brand-name">ENADE+</span>
+    </a>
+    <a href="perfil.html" class="topbar-avatar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </a>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">Resultados</a></li>
+        <li><a href="simulados.html">Simulados</a></li>
+        <li><a href="banco.html" class="active">Banco de Questões</a></li>
+      </ul>
+    </aside>
+
+    <main class="banco-main">
+
+      <!-- ── BARRA DE BUSCA / FILTROS ── -->
+      <div class="banco-filtros">
+        <div class="filtros-header">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          BUSCAR QUESTÕES
+        </div>
+
+        <!--
+          Grid de filtros: 2 linhas × 2 colunas.
+          Cada célula tem um label + select.
+          Os selects são populados/atualizados pelo banco.js.
+        -->
+        <div class="filtros-grid">
+          <div class="filtro-item">
+            <label class="filtro-label" for="f-curso">Curso:</label>
+            <div class="select-wrapper">
+              <select id="f-curso" class="filtro-select">
+                <!-- Populado pelo JS -->
+              </select>
+            </div>
+          </div>
+
+          <div class="filtro-item">
+            <label class="filtro-label" for="f-eixo">Eixo temático:</label>
+            <div class="select-wrapper">
+              <select id="f-eixo" class="filtro-select">
+                <option value="todos">Todos</option>
+                <option value="especifico">Componente Específico</option>
+                <option value="geral">Conhecimento Geral</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filtro-item">
+            <label class="filtro-label" for="f-assunto">Assunto:</label>
+            <div class="select-wrapper">
+              <select id="f-assunto" class="filtro-select">
+                <!-- Populado dinamicamente conforme o curso -->
+              </select>
+            </div>
+          </div>
+
+          <div class="filtro-item">
+            <label class="filtro-label" for="f-tipo">Tipo de questão:</label>
+            <div class="select-wrapper">
+              <select id="f-tipo" class="filtro-select">
+                <option value="todos">Todos</option>
+                <option value="objetiva">Múltipla Escolha</option>
+                <option value="discursiva">Discursiva</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linha informativa: total encontrado + contador -->
+      <div class="banco-info-bar" id="banco-info-bar">
+        <!-- Preenchido pelo JS -->
+      </div>
+
+      <!-- Lista de questões -->
+      <div class="banco-lista" id="banco-lista">
+        <!-- Preenchido pelo JS -->
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="banco.js"></script>
+</body>
+</html>
